@@ -2,13 +2,13 @@ from __future__ import absolute_import
 
 from rest_framework.response import Response
 
-from sentry.api.bases import SentryAppAuthorizationEndpoint as BaseEndpoint
+from sentry.api.bases import SentryAppAuthorizationBaseEndpoint
 from sentry.coreapi import APIUnauthorized
 from sentry.mediators.sentry_app_installations import Authorizer
 from sentry.api.serializers.models.apitoken import ApiTokenSerializer
 
 
-class SentryAppAuthorizationsEndpoint(BaseEndpoint):
+class SentryAppAuthorizationsEndpoint(SentryAppAuthorizationBaseEndpoint):
     def post(self, request, install):
         try:
             token = Authorizer.run(
