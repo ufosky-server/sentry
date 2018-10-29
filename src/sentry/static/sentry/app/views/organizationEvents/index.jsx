@@ -130,10 +130,8 @@ class OrganizationEventsContainer extends React.Component {
 
     return (
       <Feature features={['events-stream']} renderNoFeatureMessage>
-        <EventsContext.Provider
-          value={{actions: this.actions, ...this.state.queryValues}}
-        >
-          <Content>
+        <EventsContext.Provider value={{actions: this.actions, ...this.state}}>
+          <OrganizationEventsContent>
             <Header>
               <MultipleProjectSelector
                 organization={organization}
@@ -162,7 +160,7 @@ class OrganizationEventsContainer extends React.Component {
               />
             </Header>
             <Body>{children}</Body>
-          </Content>
+          </OrganizationEventsContent>
         </EventsContext.Provider>
       </Feature>
     );
@@ -171,7 +169,7 @@ class OrganizationEventsContainer extends React.Component {
 export default withRouter(withOrganization(OrganizationEventsContainer));
 export {OrganizationEventsContainer};
 
-const Content = styled(Flex)`
+const OrganizationEventsContent = styled(Flex)`
   flex-direction: column;
   flex: 1;
   overflow: hidden;
@@ -181,7 +179,7 @@ const Content = styled(Flex)`
 const Header = styled(Flex)`
   border-bottom: 1px solid ${p => p.theme.borderLight};
   font-size: 18px;
-  padding: ${space(1)} ${space(4)};
+  height: 60px;
 `;
 
 const Body = styled('div')`
