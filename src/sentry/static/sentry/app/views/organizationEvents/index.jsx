@@ -130,7 +130,9 @@ class OrganizationEventsContainer extends React.Component {
 
     return (
       <Feature features={['events-stream']} renderNoFeatureMessage>
-        <EventsContext.Provider value={{actions: this.actions, ...this.state}}>
+        <EventsContext.Provider
+          value={{actions: this.actions, ...this.state.queryValues}}
+        >
           <OrganizationEventsContent>
             <Header>
               <MultipleProjectSelector
