@@ -4,6 +4,7 @@ import {browserHistory} from 'react-router';
 
 import Discover from 'app/views/organizationDiscover/discover';
 import createQueryBuilder from 'app/views/organizationDiscover/queryBuilder';
+import Pagination from 'app/views/organizationDiscover/result/pagination';
 
 describe('Discover', function() {
   let organization, project, queryBuilder;
@@ -89,7 +90,7 @@ describe('Discover', function() {
     });
   });
 
-  describe('Pagination', function() {
+  describe('Pagination Subtexts', function() {
     let wrapper, firstPageMock, secondPageMock;
 
     beforeEach(function() {
@@ -103,6 +104,71 @@ describe('Discover', function() {
             {name: 'event_id', type: 'string'},
             {name: 'project_id', type: 'integer'},
           ],
+        },
+        headers: {
+          Link:
+            '<api/0/organizations/sentry/discover/query/?per_page=2&cursor=0:0:1>; rel="previous"; results="false"; cursor="0:0:1", <api/0/organizations/sentry/discover/query/?per_page=1000&cursor=0:2:0>; rel="next"; results="true"; cursor="0:1000:0"',
+        },
+      });
+
+      secondPageMock = MockApiClient.addMockResponse({
+        url: '/organizations/org-slug/discover/query/?per_page=1000&cursor=0:1000:0',
+        method: 'POST',
+        body: {timing: {}, data: [], meta: []},
+        headers: {
+          Link:
+            '<api/0/organizations/sentry/discover/query/?per_page=1000&cursor=0:0:1>; rel="previous"; results="false"; cursor="0:0:1", <api/0/organizations/sentry/discover/query/?per_page=1000&cursor=0:2:0>; rel="next"; results="true"; cursor="0:2000:0"',
+        },
+      });
+
+      wrapper = mount(
+        <Pagination
+          dataLength={1000}
+          pageLimit={1000}
+          previous={null}
+          current={'0:0:1'}
+          next={'0:1000:0'}
+          getNextPage={() => jest.fn()}
+          getPreviousPage={() => jest.fn()}
+        />,
+        TestStubs.routerContext()
+      );
+    });
+
+    it('shows correct number results shown on current page', async function() {
+      expect(wrapper.find('NumberResultsShown').exists()).toBe(true);
+
+      expect(wrapper.find('Pagination').props().pageLimit).toBe(
+        queryBuilder.getInternal().limit
+      );
+
+      expect(wrapper.find('NumberResultsShown').text()).toBe('Results 1 - 1000');
+    });
+
+    it('shows correct number of results shown when going to next page', async function() {
+      wrapper.setProps({current: '0:1000:0', previous: '0:0:1', next: '0:2000:0'});
+
+      expect(wrapper.find('NumberResultsShown').text()).toBe('Results 1001 - 2000');
+    });
+
+    it('shows 0 Results with no data', async function() {
+      wrapper.setProps({dataLength: 0});
+
+      expect(wrapper.find('NumberResultsShown').text()).toBe('0 Results');
+    });
+  });
+
+  describe('Pagination', function() {
+    let wrapper, firstPageMock, secondPageMock;
+
+    beforeEach(function() {
+      firstPageMock = MockApiClient.addMockResponse({
+        url: '/organizations/org-slug/discover/query/?per_page=1000&cursor=0:0:1',
+        method: 'POST',
+        body: {
+          timing: {},
+          data: [],
+          meta: [],
         },
         headers: {
           Link:
@@ -161,44 +227,6 @@ describe('Discover', function() {
         .at(0)
         .simulate('click');
       expect(firstPageMock).toHaveBeenCalledTimes(1);
-    });
-
-    it('shows correct number results shown on current page', async function() {
-      wrapper.instance().reset();
-      wrapper.instance().runQuery();
-      await tick();
-      wrapper.update();
-
-      expect(wrapper.find('NumberResultsShown').exists()).toBe(true);
-
-      expect(wrapper.find('Pagination').props().pageLimit).toBe(
-        queryBuilder.getInternal().limit
-      );
-
-      expect(wrapper.find('NumberResultsShown').text()).toBe('Results 1 - 1000');
-    });
-
-    it('shows correct number of results shown when going to next page', async function() {
-      wrapper.instance().runQuery();
-      await tick();
-      wrapper.update();
-      await tick();
-      wrapper
-        .find('PaginationButtons')
-        .find('Button')
-        .at(1)
-        .simulate('click');
-      await tick();
-
-      expect(wrapper.find('NumberResultsShown').text()).toBe('Results 1001 - 2000');
-    });
-
-    it('shows 0 Results with no data', async function() {
-      wrapper.instance().runQuery();
-      await tick();
-      wrapper.update();
-
-      expect(wrapper.find('PageNumber').text()).toBe('0 Results');
     });
 
     it('does not paginate on aggregate', async function() {
