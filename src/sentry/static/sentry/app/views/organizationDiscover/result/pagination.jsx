@@ -21,10 +21,6 @@ export default class Pagination extends React.Component {
     const startRange = parseInt(current.split(':')[1]);
     const endRange = startRange + pageLimit;
 
-    console.log('Current: ', current);
-    console.log('Next: ', this.props.next);
-    console.log('Previous: ', this.props.previous);
-
     if (dataLength) {
       const from = startRange + 1;
       const to = dataLength < pageLimit ? from + dataLength : endRange;
