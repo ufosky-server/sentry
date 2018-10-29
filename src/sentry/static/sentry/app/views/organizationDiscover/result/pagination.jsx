@@ -10,9 +10,6 @@ export default class Pagination extends React.Component {
     getNextPage: PropTypes.func.isRequired,
     getPreviousPage: PropTypes.func.isRequired,
     baseQuery: PropTypes.shape({
-      query: PropTypes.shape({
-        limit: PropTypes.number.isRequired,
-      }).isRequired,
       current: PropTypes.string.isRequired,
       next: PropTypes.string,
       previous: PropTypes.string,
@@ -25,12 +22,11 @@ export default class Pagination extends React.Component {
   getPageNumber() {
     const {baseQuery} = this.props;
     const startRange = parseInt(baseQuery.current.split(':')[1], 10);
-    const endRange = startRange + baseQuery.query.limit;
     const dataLength = baseQuery.data.data.length;
 
     if (dataLength) {
       const from = startRange + 1;
-      const to = dataLength < baseQuery.query.limit ? from + dataLength : endRange;
+      const to = startRange + dataLength;
 
       return (
         <NumberResultsShown>

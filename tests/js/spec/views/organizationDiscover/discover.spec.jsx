@@ -182,7 +182,6 @@ describe('Discover', function() {
             previous: null,
             current: '0:0:1',
             next: '0:10:0',
-            query: {limit: 10},
             data: {data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]},
           }}
           getNextPage={() => jest.fn()}
@@ -204,7 +203,6 @@ describe('Discover', function() {
           previous: '0:0:1',
           current: '0:10:0',
           next: '0:20:0',
-          query: {limit: 10},
           data: {data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]},
         },
       });
@@ -218,7 +216,6 @@ describe('Discover', function() {
           previous: '0:0:1',
           current: '0:10:0',
           next: '0:20:0',
-          query: {limit: 10},
           data: {data: []},
         },
       });
