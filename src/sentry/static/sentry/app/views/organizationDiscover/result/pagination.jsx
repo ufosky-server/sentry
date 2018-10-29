@@ -17,7 +17,7 @@ export default class Pagination extends React.Component {
       next: PropTypes.string,
       previous: PropTypes.string,
       data: PropTypes.shape({
-        data: PropTypes.object.isRequired,
+        data: PropTypes.array.isRequired,
       }).isRequired,
     }).isRequired,
   };
