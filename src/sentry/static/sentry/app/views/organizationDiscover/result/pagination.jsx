@@ -18,7 +18,7 @@ export default class Pagination extends React.Component {
 
   getPageNumber() {
     const {current, dataLength, pageLimit} = this.props;
-    const startRange = parseInt(current.split(':')[1]);
+    const startRange = parseInt(current.split(':')[1], 10);
     const endRange = startRange + pageLimit;
 
     if (dataLength) {
