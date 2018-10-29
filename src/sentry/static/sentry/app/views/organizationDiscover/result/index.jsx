@@ -188,6 +188,7 @@ export default class Result extends React.Component {
                   pageLimit={baseQuery.query.limit}
                   previous={baseQuery.previous}
                   next={baseQuery.next}
+                  current={baseQuery.current}
                   getNextPage={() => onFetchPage('next')}
                   getPreviousPage={() => onFetchPage('previous')}
                 />

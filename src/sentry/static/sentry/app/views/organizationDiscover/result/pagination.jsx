@@ -16,12 +16,12 @@ export default class Pagination extends React.Component {
   };
 
   getPageNumber() {
-    const {next, dataLength, pageLimit} = this.props;
-    const endRange = next.split(':')[1];
-    console.log(dataLength);
+    const {current, dataLength, pageLimit} = this.props;
+    const startRange = current.split(':')[1];
+    const endRange = parseInt(startRange) + pageLimit;
 
     if (dataLength) {
-      const from = endRange - pageLimit + 1;
+      const from = parseInt(startRange) + 1;
       const to = dataLength < pageLimit ? from + dataLength : endRange;
 
       return (
@@ -55,7 +55,7 @@ export default class Pagination extends React.Component {
             onClick={getNextPage}
           />
         </PaginationButtons>
-        {next && this.getPageNumber()}
+        {this.getPageNumber()}
       </React.Fragment>
     );
   }
