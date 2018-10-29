@@ -9,21 +9,28 @@ export default class Pagination extends React.Component {
   static propTypes = {
     getNextPage: PropTypes.func.isRequired,
     getPreviousPage: PropTypes.func.isRequired,
-    previous: PropTypes.string,
-    next: PropTypes.string,
-    current: PropTypes.string.isRequired,
-    pageLimit: PropTypes.number.isRequired,
-    dataLength: PropTypes.number.isRequired,
+    baseQuery: PropTypes.shape({
+      query: PropTypes.shape({
+        limit: PropTypes.number.isRequired,
+      }).isRequired,
+      current: PropTypes.string.isRequired,
+      next: PropTypes.string,
+      previous: PropTypes.string,
+      data: PropTypes.shape({
+        data: PropTypes.object.isRequired,
+      }).isRequired,
+    }).isRequired,
   };
 
   getPageNumber() {
-    const {current, dataLength, pageLimit} = this.props;
-    const startRange = parseInt(current.split(':')[1], 10);
-    const endRange = startRange + pageLimit;
+    const {baseQuery} = this.props;
+    const startRange = parseInt(baseQuery.current.split(':')[1], 10);
+    const endRange = startRange + baseQuery.query.limit;
+    const dataLength = baseQuery.data.data.length;
 
     if (dataLength) {
       const from = startRange + 1;
-      const to = dataLength < pageLimit ? from + dataLength : endRange;
+      const to = dataLength < baseQuery.query.limit ? from + dataLength : endRange;
 
       return (
         <NumberResultsShown>
@@ -36,21 +43,21 @@ export default class Pagination extends React.Component {
   }
 
   render() {
-    const {getPreviousPage, getNextPage, previous, next} = this.props;
+    const {getPreviousPage, getNextPage, baseQuery} = this.props;
 
     return (
       <React.Fragment>
         <PaginationButtons className="btn-group">
           <Button
             className="btn"
-            disabled={!previous}
+            disabled={!baseQuery.previous}
             size="xsmall"
             icon="icon-chevron-left"
             onClick={getPreviousPage}
           />
           <Button
             className="btn"
-            disabled={!next}
+            disabled={!baseQuery.next}
             size="xsmall"
             icon="icon-chevron-right"
             onClick={getNextPage}

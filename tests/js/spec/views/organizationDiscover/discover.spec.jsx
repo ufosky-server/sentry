@@ -178,11 +178,13 @@ describe('Discover', function() {
     beforeEach(function() {
       wrapper = mount(
         <Pagination
-          dataLength={1000}
-          pageLimit={1000}
-          previous={null}
-          current={'0:0:1'}
-          next={'0:1000:0'}
+          baseQuery={{
+            previous: null,
+            current: '0:0:1',
+            next: '0:10:0',
+            query: {limit: 10},
+            data: {data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]},
+          }}
           getNextPage={() => jest.fn()}
           getPreviousPage={() => jest.fn()}
         />,
@@ -193,21 +195,33 @@ describe('Discover', function() {
     it('shows correct number results shown on current page', async function() {
       expect(wrapper.find('NumberResultsShown').exists()).toBe(true);
 
-      expect(wrapper.find('Pagination').props().pageLimit).toBe(
-        queryBuilder.getInternal().limit
-      );
-
-      expect(wrapper.find('NumberResultsShown').text()).toBe('Results 1 - 1000');
+      expect(wrapper.find('NumberResultsShown').text()).toBe('Results 1 - 10');
     });
 
     it('shows correct number of results shown when going to next page', async function() {
-      wrapper.setProps({current: '0:1000:0', previous: '0:0:1', next: '0:2000:0'});
+      wrapper.setProps({
+        baseQuery: {
+          previous: '0:0:1',
+          current: '0:10:0',
+          next: '0:20:0',
+          query: {limit: 10},
+          data: {data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]},
+        },
+      });
 
-      expect(wrapper.find('NumberResultsShown').text()).toBe('Results 1001 - 2000');
+      expect(wrapper.find('NumberResultsShown').text()).toBe('Results 11 - 20');
     });
 
     it('shows 0 Results with no data', async function() {
-      wrapper.setProps({dataLength: 0});
+      wrapper.setProps({
+        baseQuery: {
+          previous: '0:0:1',
+          current: '0:10:0',
+          next: '0:20:0',
+          query: {limit: 10},
+          data: {data: []},
+        },
+      });
 
       expect(wrapper.find('NumberResultsShown').text()).toBe('0 Results');
     });
