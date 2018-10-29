@@ -12,6 +12,7 @@ export default class Pagination extends React.Component {
     previous: PropTypes.string,
     next: PropTypes.string,
     pageLimit: PropTypes.number.isRequired,
+    dataLength: PropTypes.number.isRequired,
   };
 
   getPageNumber() {
@@ -21,7 +22,8 @@ export default class Pagination extends React.Component {
 
     if (dataLength) {
       const from = endRange - pageLimit + 1;
-      const to = dataLength < endRange ? from + dataLength : endRange;
+      const to = dataLength < pageLimit ? from + dataLength : endRange;
+
       return (
         <NumberResultsShown>
           Results {from} - {to}
