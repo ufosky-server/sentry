@@ -11,17 +11,18 @@ export default class Pagination extends React.Component {
     getPreviousPage: PropTypes.func.isRequired,
     previous: PropTypes.string,
     next: PropTypes.string,
+    current: PropTypes.string.isRequired,
     pageLimit: PropTypes.number.isRequired,
     dataLength: PropTypes.number.isRequired,
   };
 
   getPageNumber() {
     const {current, dataLength, pageLimit} = this.props;
-    const startRange = current.split(':')[1];
-    const endRange = parseInt(startRange) + pageLimit;
+    const startRange = parseInt(current.split(':')[1]);
+    const endRange = startRange + pageLimit;
 
     if (dataLength) {
-      const from = parseInt(startRange) + 1;
+      const from = startRange + 1;
       const to = dataLength < pageLimit ? from + dataLength : endRange;
 
       return (
