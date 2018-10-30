@@ -138,9 +138,9 @@ describe('Result', function() {
                 projects: [1],
               },
               data: {data: [], meta: [], timing: {duration_ms: 15}},
-              previous: '0:0:1',
+              previous: null,
               current: '0:10:0',
-              next: '0:20:0',
+              next: null,
             },
             byDayQuery: {
               query: null,
