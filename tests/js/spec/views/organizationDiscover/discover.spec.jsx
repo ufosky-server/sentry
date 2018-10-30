@@ -165,7 +165,6 @@ describe('Discover', function() {
       wrapper.instance().runQuery();
       await tick();
       wrapper.update();
-
       expect(wrapper.find('Pagination').exists()).toBe(false);
     });
   });
