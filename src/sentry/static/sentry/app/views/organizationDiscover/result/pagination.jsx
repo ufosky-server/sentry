@@ -9,57 +9,32 @@ export default class Pagination extends React.Component {
   static propTypes = {
     getNextPage: PropTypes.func.isRequired,
     getPreviousPage: PropTypes.func.isRequired,
-    baseQuery: PropTypes.shape({
-      current: PropTypes.string.isRequired,
-      next: PropTypes.string,
-      previous: PropTypes.string,
-      data: PropTypes.shape({
-        data: PropTypes.array.isRequired,
-      }).isRequired,
-    }).isRequired,
+    next: PropTypes.string,
+    previous: PropTypes.string,
   };
 
-  getPageNumber() {
-    const {baseQuery} = this.props;
-    const startRange = parseInt(baseQuery.current.split(':')[1], 10);
-    const dataLength = baseQuery.data.data.length;
-
-    if (dataLength) {
-      const from = startRange + 1;
-      const to = startRange + dataLength;
-
-      return (
-        <NumberResultsShown>
-          Results {from} - {to}
-        </NumberResultsShown>
-      );
-    } else {
-      return <NumberResultsShown>0 Results</NumberResultsShown>;
-    }
-  }
 
   render() {
-    const {getPreviousPage, getNextPage, baseQuery} = this.props;
+    const {getPreviousPage, getNextPage, previous, next} = this.props;
 
     return (
       <React.Fragment>
         <PaginationButtons className="btn-group">
           <Button
             className="btn"
-            disabled={!baseQuery.previous}
+            disabled={!previous}
             size="xsmall"
             icon="icon-chevron-left"
             onClick={getPreviousPage}
           />
           <Button
             className="btn"
-            disabled={!baseQuery.next}
+            disabled={!next}
             size="xsmall"
             icon="icon-chevron-right"
             onClick={getNextPage}
           />
         </PaginationButtons>
-        {this.getPageNumber()}
       </React.Fragment>
     );
   }
@@ -67,10 +42,4 @@ export default class Pagination extends React.Component {
 
 const PaginationButtons = styled(Flex)`
   justify-content: flex-end;
-`;
-
-export const NumberResultsShown = styled(Flex)`
-  justify-content: flex-end;
-  color: ${p => p.theme.gray6};
-  font-size: ${p => p.theme.fontSizeSmall};
 `;

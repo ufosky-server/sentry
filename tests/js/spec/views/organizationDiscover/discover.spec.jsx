@@ -4,7 +4,6 @@ import {browserHistory} from 'react-router';
 
 import Discover from 'app/views/organizationDiscover/discover';
 import createQueryBuilder from 'app/views/organizationDiscover/queryBuilder';
-import Pagination from 'app/views/organizationDiscover/result/pagination';
 
 describe('Discover', function() {
   let organization, project, queryBuilder;

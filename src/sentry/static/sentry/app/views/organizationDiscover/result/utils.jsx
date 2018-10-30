@@ -76,6 +76,24 @@ export function getChartDataByDay(rawData, query) {
   });
 }
 
+/**
+ *
+ * @param {Object} baseQuery data
+ */
+export function getResultsPageRange(baseQuery) {
+  const startRange = parseInt(baseQuery.current.split(':')[1], 10);
+  const dataLength = baseQuery.data.data.length;
+
+  if (dataLength) {
+    const from = startRange + 1;
+    const to = startRange + dataLength;
+
+    return `Results ${from} - ${to}`;
+  } else {
+    return '0 Results';
+  }
+}
+
 // Return placeholder empty series object with all series and dates listed and
 // all values set to null
 function getEmptySeriesHash(seriesSet, dates) {

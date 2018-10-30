@@ -11,7 +11,12 @@ import LineChart from 'app/components/charts/lineChart';
 import space from 'app/styles/space';
 import InlineSvg from 'app/components/inlineSvg';
 
-import {getChartData, getChartDataByDay, downloadAsCsv} from './utils';
+import {
+  getChartData,
+  getChartDataByDay,
+  downloadAsCsv,
+  getResultsPageRange,
+} from './utils';
 import Table from './table';
 import Pagination from './pagination';
 import {
@@ -114,10 +119,15 @@ export default class Result extends React.Component {
     const summaryData = baseViews.includes(this.state.view)
       ? baseQuery.data
       : byDayQuery.data;
+    const isTable = this.state.view === 'table';
+    const summaryLength =
+      isTable && !baseQuery.query.aggregations.length
+        ? `, ${getResultsPageRange(baseQuery)}`
+        : isTable ? `, ${summaryData.data.length} rows` : null;
 
     return (
       <ResultSummary>
-        query time: {summaryData.timing.duration_ms} ms, {summaryData.data.length} rows
+        query time: {summaryData.timing.duration_ms} ms{summaryLength}
       </ResultSummary>
     );
   }
@@ -186,7 +196,8 @@ export default class Result extends React.Component {
                 <Pagination
                   getNextPage={() => onFetchPage('next')}
                   getPreviousPage={() => onFetchPage('previous')}
-                  baseQuery={baseQuery}
+                  next={baseQuery.next}
+                  previous={baseQuery.previous}
                 />
               )}
             </React.Fragment>
