@@ -46,9 +46,15 @@ class GetSentryAppsTest(SentryAppsTest):
         assert response.status_code == 200
         assert response.data == [{
             'name': self.published_app.name,
+            'slug': self.published_app.slug,
             'scopes': [],
+            'status': self.published_app.get_status_display(),
             'uuid': self.published_app.uuid,
             'webhook_url': self.published_app.webhook_url,
+            'redirect_url': self.published_app.redirect_url,
+            'clientID': self.published_app.application.client_id,
+            'clientSecret': self.published_app.application.client_secret,
+            'overview': self.published_app.overview,
         }]
 
     def test_no_access_without_internal_catchall(self):
