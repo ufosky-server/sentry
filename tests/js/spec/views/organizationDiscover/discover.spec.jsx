@@ -162,7 +162,6 @@ describe('Discover', function() {
     });
 
     it('does not paginate on aggregate', async function() {
-      wrapper.instance().reset();
       wrapper.instance().updateField('aggregations', [['count()', null, 'count']]);
       wrapper.instance().runQuery();
       await tick();
@@ -184,8 +183,8 @@ describe('Discover', function() {
             next: '0:10:0',
             data: {data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]},
           }}
-          getNextPage={() => jest.fn()}
-          getPreviousPage={() => jest.fn()}
+          getNextPage={jest.fn()}
+          getPreviousPage={jest.fn()}
         />,
         TestStubs.routerContext()
       );
@@ -197,7 +196,7 @@ describe('Discover', function() {
       expect(wrapper.find('NumberResultsShown').text()).toBe('Results 1 - 10');
     });
 
-    it('shows correct number of results shown when going to next page', async function() {
+    it('shows correct number of results shown when going to next page (next page function mocked on click)', async function() {
       wrapper.setProps({
         baseQuery: {
           previous: '0:0:1',
