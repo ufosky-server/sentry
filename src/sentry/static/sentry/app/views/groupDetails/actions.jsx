@@ -65,13 +65,15 @@ class DeleteActions extends React.Component {
   );
 
   openDiscardModal = () =>
+    // Note that we render the discard modal in both the disabled and enabled
+    // feature state. This is because the disabled state shares the look.
     openModal(modalProps => (
       <Feature
         organization={this.props.organization}
         features={['discard-groups']}
         renderDisabled={p => this.renderDiscardModal({...p, ...modalProps})}
       >
-        {this.renderDiscardModal({...modalProps, hasFeature: true})}
+        {p => this.renderDiscardModal({...p, ...modalProps})}
       </Feature>
     ));
 
