@@ -194,8 +194,8 @@ export default class Result extends React.Component {
               />
               {!baseQuery.query.aggregations.length && (
                 <Pagination
-                  next={baseQuery.next}
                   previous={baseQuery.previous}
+                  next={baseQuery.next}
                   getNextPage={() => onFetchPage('next')}
                   getPreviousPage={() => onFetchPage('previous')}
                 />
