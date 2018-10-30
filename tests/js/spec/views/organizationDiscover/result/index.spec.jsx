@@ -182,6 +182,7 @@ describe('Result', function() {
           data={data}
           organization={organization}
           savedQuery={TestStubs.DiscoverSavedQuery()}
+          onFetchPage={jest.fn()}
         />,
         TestStubs.routerContext()
       );
