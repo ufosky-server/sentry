@@ -96,11 +96,7 @@ describe('Discover', function() {
       firstPageMock = MockApiClient.addMockResponse({
         url: '/organizations/org-slug/discover/query/?per_page=1000&cursor=0:0:1',
         method: 'POST',
-        body: {
-          timing: {},
-          data: [],
-          meta: [],
-        },
+        body: {timing: {}, data: [], meta: []},
         headers: {
           Link:
             '<api/0/organizations/sentry/discover/query/?per_page=2&cursor=0:0:1>; rel="previous"; results="false"; cursor="0:0:1", <api/0/organizations/sentry/discover/query/?per_page=1000&cursor=0:2:0>; rel="next"; results="true"; cursor="0:1000:0"',
