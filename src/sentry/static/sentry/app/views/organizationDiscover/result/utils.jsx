@@ -77,8 +77,9 @@ export function getChartDataByDay(rawData, query) {
 }
 
 /**
- *
+ * Returns the page ranges of paginated tables, i.e. Results 1-100
  * @param {Object} baseQuery data
+ * @returns {String}
  */
 export function getResultsPageRange(baseQuery) {
   const startRange = parseInt(baseQuery.current.split(':')[1], 10);
