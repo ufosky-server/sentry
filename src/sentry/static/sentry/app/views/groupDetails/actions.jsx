@@ -37,7 +37,7 @@ class DeleteActions extends React.Component {
     };
   }
 
-  renderDiscardModal = ({Body, closeModal, renderDisabled, hasFeature, features}) => (
+  renderDiscardModal = ({Body, closeModal, hasFeature, features}) => (
     <React.Fragment>
       <Body>
         {!hasFeature && (
