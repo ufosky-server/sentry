@@ -241,15 +241,15 @@ export default class Result extends React.Component {
             </ChartWrapper>
           )}
           <ResultSummaryAndButtons>
-          {this.renderSummary()}
-          {!baseQuery.query.aggregations.length && (
-            <Pagination
-              previous={baseQuery.previous}
-              next={baseQuery.next}
-              getNextPage={() => onFetchPage('next')}
-              getPreviousPage={() => onFetchPage('previous')}
-            />
-          )}
+            {this.renderSummary()}
+            {!baseQuery.query.aggregations.length && (
+              <Pagination
+                previous={baseQuery.previous}
+                next={baseQuery.next}
+                getNextPage={() => onFetchPage('next')}
+                getPreviousPage={() => onFetchPage('previous')}
+              />
+            )}
           </ResultSummaryAndButtons>
         </ResultInnerContainer>
       </ResultContainer>
