@@ -39,5 +39,4 @@ export default class Pagination extends React.Component {
 
 const PaginationButtons = styled(Flex)`
   justify-content: flex-end;
-  float: right;
 `;

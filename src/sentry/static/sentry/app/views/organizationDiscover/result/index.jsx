@@ -27,6 +27,7 @@ import {
   ChartWrapper,
   ChartNote,
   SavedQueryAction,
+  ResultSummaryAndButtons,
 } from '../styles';
 import {NUMBER_OF_SERIES_BY_DAY} from '../data';
 
@@ -186,21 +187,11 @@ export default class Result extends React.Component {
         </Flex>
         <ResultInnerContainer innerRef={ref => (this.container = ref)}>
           {view === 'table' && (
-            <React.Fragment>
-              <Table
-                data={baseQuery.data}
-                query={baseQuery.query}
-                height={this.container && this.container.clientHeight}
-              />
-              {!baseQuery.query.aggregations.length && (
-                <Pagination
-                  previous={baseQuery.previous}
-                  next={baseQuery.next}
-                  getNextPage={() => onFetchPage('next')}
-                  getPreviousPage={() => onFetchPage('previous')}
-                />
-              )}
-            </React.Fragment>
+            <Table
+              data={baseQuery.data}
+              query={baseQuery.query}
+              height={this.container && this.container.clientHeight}
+            />
           )}
           {view === 'line' && (
             <ChartWrapper>
@@ -249,7 +240,17 @@ export default class Result extends React.Component {
               {this.renderNote()}
             </ChartWrapper>
           )}
+          <ResultSummaryAndButtons>
           {this.renderSummary()}
+          {!baseQuery.query.aggregations.length && (
+            <Pagination
+              previous={baseQuery.previous}
+              next={baseQuery.next}
+              getNextPage={() => onFetchPage('next')}
+              getPreviousPage={() => onFetchPage('previous')}
+            />
+          )}
+          </ResultSummaryAndButtons>
         </ResultInnerContainer>
       </ResultContainer>
     );

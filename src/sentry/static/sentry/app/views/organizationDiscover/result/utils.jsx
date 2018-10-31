@@ -89,9 +89,9 @@ export function getResultsPageRange(baseQuery) {
     const from = startRange + 1;
     const to = startRange + dataLength;
 
-    return `Results ${from} - ${to}`;
+    return `results ${from} - ${to}`;
   } else {
-    return '0 Results';
+    return '0 results';
   }
 }
 
